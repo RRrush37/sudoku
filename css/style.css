@@ -1,0 +1,59 @@
+@import url("reset.css");
+
+body {
+}
+.sudoku {
+  width: fit-content;
+  margin: 50px auto;
+  border-width: 3px 1px 1px 3px;
+  border-style: solid;
+}
+
+ul:nth-child(3n) {
+  border-bottom: 2px solid;
+}
+
+.grid {
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  display: inline-block;
+  text-align: center;
+  outline: 1px solid black;
+}
+
+.grid:nth-child(3n) {
+  border-right: 2px solid;
+}
+
+.error {
+  background-color: red;
+}
+
+.legal {
+  background-color: rgb(100, 255, 100);
+}
+
+.focus {
+  background-color: rgb(255, 241, 83);
+}
+
+/*按鈕區塊*/
+
+.buttomFlex {
+  display: flex;
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.buttomFlex li {
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  margin: 10px;
+  background-color: #eee;
+  border: 1px solid;
+  border-radius: 10px;
+  cursor: pointer;
+}
