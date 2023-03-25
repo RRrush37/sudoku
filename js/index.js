@@ -6,7 +6,7 @@ class Grid extends React.Component {
     this.state = { focus: false, data: this.props.data };
   }
   render() {
-    let status;
+    let status = "";
 
     if (this.state.data === 0) {
       let className = this.state.focus ? "grid none focus" : "grid none";
@@ -16,10 +16,13 @@ class Grid extends React.Component {
         </li>
       );
     }
-    if (this.state.focus) status = "focus";
-    else if (this.props.error === true) {
-      status = "error";
-    } else status = "legal";
+    if (this.props.error) {
+      status += " error";
+    } else status += " legal";
+    if (!this.props.init) {
+      return <li className={"grid init" + status}>{this.state.data}</li>;
+    }
+    if (this.state.focus) status += " focus";
     return (
       <li onClick={this.clickHandler.bind(this)} className={"grid " + status}>
         {this.state.data}
@@ -28,7 +31,6 @@ class Grid extends React.Component {
   }
 
   clickHandler() {
-    console.log(this);
     if (focusGrid) focusGrid.setState({ focus: false });
     this.setState({ focus: true });
     focusGrid = this;
@@ -41,6 +43,7 @@ class Row extends React.Component {
   }
   render() {
     let row = [];
+
     for (let i = 0; i < 9; i++) {
       row.push(
         <Grid
@@ -49,6 +52,7 @@ class Row extends React.Component {
           row={this.props.row}
           col={i}
           callBack={this.props.callBack}
+          init={!this.props.init[i]}
         />
       );
     }
@@ -59,7 +63,11 @@ class Row extends React.Component {
 class Board extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { board: this.props.data };
+    let temp = [];
+    for (let i = 0; i < 9; i++) {
+      temp[i] = this.props.data[i].slice();
+    }
+    this.state = { board: temp };
   }
   render() {
     let error = [];
@@ -86,7 +94,7 @@ class Board extends React.Component {
       let square;
       for (let i = 0; i < 9; i += 3) {
         for (let j = 0; j < 9; j += 3) {
-          square = new Array(9).fill(0);
+          square = new Array(10).fill(0);
           for (let k = i; k < i + 3; k++) {
             for (let l = j; l < j + 3; l++) {
               square[this.state.board[k][l]]++;
@@ -109,13 +117,14 @@ class Board extends React.Component {
           error={error[i]}
           row={i}
           callBack={this.callBackFunction.bind(this)}
+          init={this.props.data[i]}
         />
       );
     }
     return board;
   }
   callBackFunction(row, col, val) {
-    this.setState((currState) => {
+    this.setState((currState, currProps) => {
       currState.board[row][col] = val;
       return { board: currState.board };
     });
@@ -180,6 +189,16 @@ window.addEventListener("load", () => {
   root.render(board);
   root = ReactDOM.createRoot(document.getElementsByClassName("numButtom")[0]);
   root.render(<NumButtomList />);
+  document.addEventListener("keydown", (e) => {
+    if (e.keyCode >= 49 && e.keyCode <= 58 && focusGrid) {
+      let num = e.keyCode - 48;
+      focusGrid.setState({ data: num });
+      focusGrid.props.callBack(focusGrid.props.row, focusGrid.props.col, num);
+    } else if ((e.keyCode === 8 || e.keyCode === 46) && focusGrid) {
+      focusGrid.setState({ data: 0 });
+      focusGrid.props.callBack(focusGrid.props.row, focusGrid.props.col, 0);
+    }
+  });
 });
 
 let question = [

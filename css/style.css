@@ -7,10 +7,11 @@ body {
   margin: 50px auto;
   border-width: 3px 1px 1px 3px;
   border-style: solid;
+  border-color: black;
 }
 
 ul:nth-child(3n) {
-  border-bottom: 2px solid;
+  border-bottom: 2px solid black;
 }
 
 .grid {
@@ -23,11 +24,7 @@ ul:nth-child(3n) {
 }
 
 .grid:nth-child(3n) {
-  border-right: 2px solid;
-}
-
-.error {
-  background-color: red;
+  border-right: 2px solid black;
 }
 
 .legal {
@@ -36,6 +33,19 @@ ul:nth-child(3n) {
 
 .focus {
   background-color: rgb(255, 241, 83);
+}
+
+.init {
+  background-color: blue;
+  color: white;
+}
+
+.grid:not(.init) {
+  cursor: pointer;
+}
+
+.error {
+  background-color: red;
 }
 
 /*按鈕區塊*/
