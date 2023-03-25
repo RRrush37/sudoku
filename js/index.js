@@ -74,14 +74,14 @@ class Board extends React.Component {
     for (let i = 0; i < 9; i++) {
       error[i] = new Array(9).fill(false);
     }
-
     for (let i = 0; i < 9; i++) {
-      let rowRepeat = new Array(9).fill(0);
-      let colRepeat = new Array(9).fill(0);
+      let rowRepeat = new Array(10).fill(0);
+      let colRepeat = new Array(10).fill(0);
       for (let j = 0; j < 9; j++) {
         rowRepeat[this.state.board[i][j]]++;
         colRepeat[this.state.board[j][i]]++;
       }
+      console.log(rowRepeat[9]);
       for (let j = 0; j < 9; j++) {
         if (rowRepeat[this.state.board[i][j]] > 1) {
           error[i][j] = true;
@@ -90,20 +90,20 @@ class Board extends React.Component {
           error[j][i] = true;
         }
       }
+    }
 
-      let square;
-      for (let i = 0; i < 9; i += 3) {
-        for (let j = 0; j < 9; j += 3) {
-          square = new Array(10).fill(0);
-          for (let k = i; k < i + 3; k++) {
-            for (let l = j; l < j + 3; l++) {
-              square[this.state.board[k][l]]++;
-            }
+    let square;
+    for (let i = 0; i < 9; i += 3) {
+      for (let j = 0; j < 9; j += 3) {
+        square = new Array(10).fill(0);
+        for (let k = i; k < i + 3; k++) {
+          for (let l = j; l < j + 3; l++) {
+            square[this.state.board[k][l]]++;
           }
-          for (let k = i; k < i + 3; k++) {
-            for (let l = j; l < j + 3; l++) {
-              if (square[this.state.board[k][l]] > 1) error[k][l] = true;
-            }
+        }
+        for (let k = i; k < i + 3; k++) {
+          for (let l = j; l < j + 3; l++) {
+            if (square[this.state.board[k][l]] > 1) error[k][l] = true;
           }
         }
       }
